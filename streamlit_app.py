@@ -51,3 +51,27 @@ st.bar_chart(ages.size())
 
 st.write('Users:')
 st.write(display_values)
+
+
+def get_users_by_name(name):
+    return df[df["FIRST_NAME"].str.contains(name, case=False)]
+
+
+name = st.text_input('Search for a user by first name:', max_chars=20)
+
+
+def path_to_image_html(path):
+    return '<img src="' + path + '" width="50" >'
+
+
+def concat_name(first_name, last_name):
+    return first_name + " " + last_name
+
+
+if name:
+    users = get_users_by_name(name)
+    users["AVATAR"] = users["PROFILE_IMAGE_URL"].apply(
+        path_to_image_html)
+    users["NAME"] = users["FIRST_NAME"] + " " + users["LAST_NAME"]
+    users_df = users[['NAME', 'AVATAR']]
+    st.write(users_df.to_html(escape=False), unsafe_allow_html=True)
