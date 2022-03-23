@@ -3,8 +3,6 @@
 import streamlit as st
 import snowflake.connector
 import pandas as pd
-import functools
-import matplotlib.pyplot as plt
 
 # Initialize connection.
 # Uses st.experimental_singleton to only run once.
