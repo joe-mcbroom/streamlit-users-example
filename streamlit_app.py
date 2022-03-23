@@ -30,32 +30,19 @@ rows = run_query("SELECT * from users")
 columnsData = run_query("show columns in table users;")
 columns = [x[2] for x in columnsData]
 
-
-def get_ages(data):
-    ages_dict = {}
-    for row in data:
-        age = int(row[6])
-        if age not in ages_dict:
-            ages_dict[age] = 1
-        else:
-            ages_dict[age] += 1
-    return ages_dict
-
-
-# st.bar_chart(ages, use_container_width=True)
-
 # Print results.
 
 df = pd.DataFrame(rows, columns=columns)
+
 
 age_range = st.slider(
     'Select an age range to display',
     1, 100, (1, 100), step=1, format="%d",
 )
-min_age, max_age = age_range
+selected_min_age, max_age = age_range
 ages = df["AGE"]
 
-display_values = df[(ages >= min_age) & (ages <= max_age)]
+display_values = df[(ages >= selected_min_age) & (ages <= max_age)]
 display_values.style.hide_index()
 
 ages = display_values.groupby("AGE")
@@ -63,4 +50,4 @@ st.write('Age distribution:')
 st.bar_chart(ages.size())
 
 st.write('Users:')
-st.table(display_values)
+st.write(display_values)
